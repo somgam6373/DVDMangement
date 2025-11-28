@@ -241,7 +241,7 @@
             const loading = document.querySelector('#loading');
             if(loading)
                 loading.style.display = "block";
-            const res = await fetch("/a");
+            const res = await fetch("/dvdData");
             if (!res.ok) throw new Error("서버 응답 실패");
             const data = await res.json();
             console.log("data",data); //까먹지 말고 지우기!!
