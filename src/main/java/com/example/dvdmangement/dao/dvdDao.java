@@ -24,10 +24,10 @@ import java.util.ArrayList;
                 while(rs.next()) {
                     int id = rs.getInt("Movie_ID");
                     String title = rs.getString("제목");
-                    String audience = rs.getString("발매일");
-                    String date = rs.getString("관객수");
+                    String date = rs.getString("발매일");
+                    String audience = rs.getString("관객수");
                     int grade = rs.getInt("관람연령");
-                    boolean available = rs.getBoolean("판매_가능_여부");
+                    boolean available = rs.getBoolean("판매가능여부");
                     ResponseDTO movieDto = new ResponseDTO(id, title, audience, date, grade, available);
                     movieList.add(movieDto);
                 }
