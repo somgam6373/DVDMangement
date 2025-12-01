@@ -308,6 +308,39 @@
         }
 
 
+        /* 각 항목 flex */
+        .rent-item {
+            display: flex;
+            justify-content: space-between; /* 왼쪽 정보 / 오른쪽 버튼 분리 */
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid #444;
+            background-color: #1a1f2e;
+            color: #fff;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .rent-item:hover {
+            background-color: #2a2f4a;
+        }
+
+        .returnBtn {
+            padding: 6px 1px;
+            border: none;
+            border-radius: 6px;
+            background-color: #ef4444;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .returnBtn:hover {
+            background-color: #ff6b6b;
+            transform: scale(1.05);
+        }
+
     </style>
 </head>
 <body>
@@ -357,6 +390,7 @@
         <span id="rentClose" class="close">&times;</span>
         <h2 id="rentModalTitle">대여 정보</h2>
         <div id="rentList" style="max-height: 400px; overflow-y: auto;">
+            <button class="returnBtn" id = "returnBtn"><i class="fa-solid fa-retweet"></i></button>
         </div>
     </div>
 </div>
@@ -526,12 +560,41 @@
             } else {
                 data.forEach(item => {
                     const div = document.createElement("div");
-                    div.style.padding = "10px";
-                    div.style.borderBottom = "1px solid #ccc";
-                    div.innerHTML = `
-                    <strong>${item.title}</strong> (ID: ${item.movieId})<br>
-                    이름: ${item.userName}, 나이: ${item.userAge}, <br>대여일: ${item.rentalDate}
-                `;
+                    div.classList.add("rent-item");
+
+                    const infoDiv = document.createElement("div");
+                    infoDiv.innerHTML = `
+        <strong>${item.title}</strong> (ID: ${item.movieId})<br>
+        이름: ${item.userName}, 나이: ${item.userAge}, <br>대여일: ${item.rentalDate}
+    `;
+
+                    const returnBtn = document.createElement("button");
+                    returnBtn.innerHTML = '<i class="fa-solid fa-retweet"></i>';
+
+                    returnBtn.classList.add("returnBtn");
+
+                    returnBtn.addEventListener("click", async () => {
+                        try {
+                            const res = await fetch("/returnMovie", {
+                                method: "POST",
+                                headers: {"Content-Type": "application/json"},
+                                body: JSON.stringify({ movieId: item.movieId })
+                            });
+                            const data = await res.json();
+                            if (data.success) {
+                                alert(`${item.title} 반납 완료`);
+                                div.remove();
+                            } else {
+                                alert("반납 실패!");
+                            }
+                        } catch (err) {
+                            console.error(err);
+                            alert("반납 처리 중 에러 발생!");
+                        }
+                    });
+
+                    div.appendChild(infoDiv);
+                    div.appendChild(returnBtn); // 오른쪽 끝에 배치
                     rentList.appendChild(div);
                 });
             }
