@@ -48,8 +48,8 @@ public class dvdService {
         }
 
 
-        //dao.rentMovie 작성 시 주석 제거
-        //dao.rentMovie(name, age, movieId);
+
+        dao.rentMovie(name, age, movieId);
 
         System.out.println(
                 "[대여 완료] " + name + "님이 '" + dvd.getTitle()
