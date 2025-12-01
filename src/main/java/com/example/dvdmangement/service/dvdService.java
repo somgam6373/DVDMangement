@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.dvdmangement.dto.RequestDTO;
 import com.example.dvdmangement.dto.ResponseDTO;
 import com.example.dvdmangement.dao.dvdDao;
+import com.example.dvdmangement.dto.rentalInfoDTO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,9 +19,9 @@ public class dvdService {
     }
 
     //대여된 DVD 데이터 호출
-    public List<ResponseDTO> getAllRents() {
+    public List<rentalInfoDTO> getAllRents() {
         //Dao 수정시 findAllDvd -> findAllRents로 수정
-        return null;
+        return dao.findAllRents();
     }
 
 

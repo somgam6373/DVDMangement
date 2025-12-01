@@ -2,6 +2,7 @@ package com.example.dvdmangement.controller;
 
 import com.example.dvdmangement.dto.RequestDTO;
 import com.example.dvdmangement.dto.ResponseDTO;
+import com.example.dvdmangement.dto.rentalInfoDTO;
 import com.example.dvdmangement.service.dvdService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,6 @@ import java.util.List;
 @RestController
 public class dvdController {
     private final dvdService dvdService;
-
-
 
     public dvdController(dvdService dvdService) {
         this.dvdService = dvdService;
@@ -30,7 +29,7 @@ public class dvdController {
 
     //대여된 DVD 데이터 호출
     @GetMapping("/rentData")
-    public List<ResponseDTO> getAllRents(){
+    public List<rentalInfoDTO> getAllRents(){
         return dvdService.getAllRents();
     }
 

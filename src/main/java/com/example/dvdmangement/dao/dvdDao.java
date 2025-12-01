@@ -1,6 +1,7 @@
 package com.example.dvdmangement.dao;
 
 import com.example.dvdmangement.dto.ResponseDTO;
+import com.example.dvdmangement.dto.rentalInfoDTO;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -82,7 +83,7 @@ import java.util.ArrayList;
                 String insertRentalSql =
                         "INSERT INTO rental (Movie_ID, User_ID, 대여일) VALUES (?,?,?)";
                 pstmt = conn.prepareStatement(insertRentalSql);
-                pstmt.setInt(1, movieId );
+                pstmt.setInt(1, movieId);
                 pstmt.setInt(2, userId);
                 pstmt.setObject(3, rentalDate);
                 pstmt.executeUpdate();
@@ -92,13 +93,30 @@ import java.util.ArrayList;
             } catch (Exception ex) {
                 try {
                     if (conn != null) conn.rollback();
-                } catch (SQLException ignored) {}
+                } catch (SQLException ignored) {
+                }
 
                 throw new RuntimeException("대여 처리 중 오류 발생: " + ex.getMessage(), ex);
 
             } finally {
-                try { if (rs != null) rs.close(); } catch (Exception ignored) {}
-                try { if (pstmt != null) pstmt.close(); } catch (Exception ignored) {}
-                try { if (conn != null) conn.close(); } catch (Exception ignored) {}
+                try {
+                    if (rs != null) rs.close();
+                } catch (Exception ignored) {
+                }
+                try {
+                    if (pstmt != null) pstmt.close();
+                } catch (Exception ignored) {
+                }
+                try {
+                    if (conn != null) conn.close();
+                } catch (Exception ignored) {
+                }
             }
-    }}
+
+
+        }
+        public List<rentalInfoDTO> findAllRents() {
+            return null;
+        }
+
+    }

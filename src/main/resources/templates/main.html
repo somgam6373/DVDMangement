@@ -529,8 +529,8 @@
                     div.style.padding = "10px";
                     div.style.borderBottom = "1px solid #ccc";
                     div.innerHTML = `
-                    <strong>${item.movieTitle}</strong> (ID: ${item.movieId})<br>
-                    이름: ${item.userName}, 나이: ${item.userAge}
+                    <strong>${item.title}</strong> (ID: ${item.movieId})<br>
+                    이름: ${item.userName}, 나이: ${item.userAge}, <br>대여일: ${item.rentalDate}
                 `;
                     rentList.appendChild(div);
                 });
