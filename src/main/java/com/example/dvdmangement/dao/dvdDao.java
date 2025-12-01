@@ -113,9 +113,8 @@ import java.util.ArrayList;
                 }
             }
 
-
         }
-        public List<rentalInfoDTO> findAllRents() {
+        public List<rentalInfoDTO> findAllRents(){
             return null;
         }
 
