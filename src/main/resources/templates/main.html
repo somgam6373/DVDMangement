@@ -346,7 +346,10 @@
 <body>
 <header>
     <h1>DVD</h1>
-    <a>대여 정보</a>
+    <a id = "rentInfo">대여 정보</a>
+    <a href="/login.html" id = "login">로그인</a>
+    <a href="/register.html"  id = "register">회원가입</a>
+    <a id = "logout">로그아웃</a>
 </header>
 <main>
     <form action="" id = "searchForm" method="get">
@@ -399,6 +402,23 @@
     let allMovies = [];
     window.addEventListener("DOMContentLoaded",async ()=>{
         await loadMovies();
+
+        const rentInfo = document.getElementById("rentInfo").style.display
+        if(token){
+            document.getElementById("rentInfo").style.display = "inLine";
+            document.getElementById("logout").style.display = "inLine";
+            document.getElementById("login").style.display = "none";
+            document.getElementById("register").style.display = "none";
+        }
+        else{
+            document.getElementById("rentInfo").style.display = "none";
+            document.getElementById("logout").style.display = "none";
+            document.getElementById("login").style.display = "inLine";
+            document.getElementById("register").style.display = "inLine";
+        }
+
+
+
         const searchForm = document.getElementById("searchForm");
         searchForm.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -517,9 +537,11 @@
         }
 
         try {
+            const token = localStorage.getItem("jwtToken");
             const res = await fetch("/rentMovie", {
                 method: "POST",
                 headers: {
+                    "Authorization": "Bearer " + token,
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
