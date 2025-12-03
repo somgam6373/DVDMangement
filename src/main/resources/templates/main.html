@@ -532,16 +532,17 @@
             const data = await res.json()
             if (data.success) {
                 alert("대여 등록 완료!");
+                alert(`이름: ${userName}\n나이: ${userAge}\nID: ${movieId}  제목: ${movieTitle}`);
                 document.getElementById("movieModal").style.display = "none";
                 await loadMovies();
             } else {
                 alert(data.success || "연령 문제로 대여 등록에 실패했습니다.");
+                alert(`이름: ${userName} 나이: ${userAge} 등급: ${movie.grade}`);
             }
         }catch(err){
             console.error(err);
             alert("에러 발생!");
         }
-        alert(`이름: ${userName}\n나이: ${userAge}\nID: ${movieId}  제목: ${movieTitle}`);
         document.getElementById("movieModal").style.display = "none";
     });
 
@@ -578,7 +579,7 @@
                             const res = await fetch("/returnMovie", {
                                 method: "POST",
                                 headers: {"Content-Type": "application/json"},
-                                body: JSON.stringify({ movieId: item.movieId })
+                                body: JSON.stringify({ movieId: item.movieId,  })
                             });
                             const data = await res.json();
                             if (data.success) {

@@ -32,8 +32,6 @@ import java.util.ArrayList;
                     ResponseDTO movieDto = new ResponseDTO(id, title, audience, date, grade, available);
                     movieList.add(movieDto);
                 }
-                for(int i=0; i<movieList.size(); i++) {
-                    System.out.println(movieList.get(i).getTitle());}
             }catch (SQLException ex) {
                 ex.printStackTrace();
             }catch (Exception e){
@@ -118,4 +116,7 @@ import java.util.ArrayList;
             return null;
         }
 
+        public void returnMovie(int movieid, int userid){
+            Connection conn = null;
+        }
     }

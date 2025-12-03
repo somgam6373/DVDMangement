@@ -49,12 +49,28 @@ public class dvdService {
         }
 
 
-
         dao.rentMovie(name, age, movieId);
 
         System.out.println(
                 "[대여 완료] " + name + "님이 '" + dvd.getTitle()
                         + "'(ID: " + movieId + ")를 대여했습니다."
         );
+    }
+
+    public void returnMovie(int movieId, int userId) {
+
+        List<rentalInfoDTO>Ids = dao.findAllRents();
+
+        rentalInfoDTO Id = null;
+
+        for(rentalInfoDTO a : Ids) {
+            if(a.getMovieId() == movieId) {
+                Id = a;
+                break;
+            }
+        }
+
+        dao.returnMovie(movieId, userId);
+
     }
 }
