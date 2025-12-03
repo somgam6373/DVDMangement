@@ -51,4 +51,20 @@ public class dvdController {
             return "{\"success\": false}";
         }
     }
+
+    @PostMapping("/returnMovie")
+        public String returnMovie(@RequestBody rentalInfoDTO rentalinfo){
+
+        int movieId = rentalinfo.getMovieId();
+        int userId = rentalinfo.getMovieId();
+
+        try {
+            dvdService.returnMovie(movieId, userId);
+            return "{\"success\": true}";
+        }
+        catch (IllegalStateException e){
+            return "{\"success\": false}";
+        }
+
+    }
 }
