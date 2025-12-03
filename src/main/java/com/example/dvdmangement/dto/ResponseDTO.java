@@ -1,12 +1,12 @@
 package com.example.dvdmangement.dto;
 
 public class ResponseDTO {
-    private final int id;
-    private final String title;
-    private final String audience;
-    private final String date;
-    private final int grade;
-    private final boolean available;
+    private  int id;
+    private  String title;
+    private  String audience;
+    private  String date;
+    private  int grade;
+    private  boolean available;
 
     public ResponseDTO(int id, String title, String audience, String date, int grade, boolean available) {
         this.id = id;

@@ -49,7 +49,7 @@ public class dvdService {
         }
 
 
-        dao.rentMovie(name, age, movieId);
+        dao.rentMovie(name, age, movieId,userid);
 
         System.out.println(
                 "[대여 완료] " + name + "님이 '" + dvd.getTitle()

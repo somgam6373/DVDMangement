@@ -1,20 +1,16 @@
 package com.example.dvdmangement.dto;
 
 public class rentalInfoDTO {
-    private final String userName;
-    private final int userAge;
-    private final int userId;
     private final String title;
     private final String rentalDate;
-    private final int movieId;
+    private final int Rental_Id;
 
-    public rentalInfoDTO(String userName, int userAge, int userId,String title,String rentalDate, int movieId) {
-        this.userName = userName;
-        this.userAge = userAge;
+    public rentalInfoDTO(String title,String rentalDate, int Rental_Id) {
         this.title = title;
         this.rentalDate = rentalDate;
-        this.movieId = movieId;
-        this.userId = userId;
+        this.Rental_Id = Rental_Id;
+
+
     }
     public String getUserName() {return userName;}
     public int getUserAge() {
