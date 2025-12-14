@@ -8,13 +8,14 @@ import java.util.Date;
 
 public class JwtUtil {
 
-    // ⚠️ 과제용이라 그냥 하드코딩. 실제 서비스면 환경변수/설정파일로 빼야 함
+
     private static final String SECRET_KEY = "my-super-secret-key-for-dvd-project";
 
-    //1시간 짜리 토큰
+
+    //토큰 유효기간(1시간)
     private static final long EXPIRATION_MS = 1000L * 60 * 60;
 
-    //토큰 생성
+    //토큰 생성 코드
     public static String createToken(String userId) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + EXPIRATION_MS);

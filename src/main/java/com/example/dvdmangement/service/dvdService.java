@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 public class dvdService {
     private dvdDao dao = new dvdDao();
 
-    //movie 데이터 호출
     public List<ResponseDTO> getAllDvds() {
 
         return dao.findAllDvd();
@@ -21,7 +20,6 @@ public class dvdService {
     public List<UserDTO> getUser(){
         return dao.findAllUser();
     }
-    //대여된 DVD 데이터 호출
     public List<rentalInfoDTO> getAllRents(int userId) {
         return dao.findAllRents(userId);
     }

@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class dvdDao {
-    // JDBC 연결 정보 (클래스 레벨 상수로 정의하여 재사용성 및 관리 용이성 향상)
     private static final String DB_URL = "jdbc:mysql://localhost/mydb?serverTimezone=Asia/Seoul";
     private static final String USER = "root";
     private static final String PASS = "0211";
@@ -26,7 +25,7 @@ public class dvdDao {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
-            // 쿼리 내용은 그대로 유지
+
             rs=stmt.executeQuery("SELECT " +
                     "    M.Movie_ID, M.제목, M.발매일, M.관객수, M.관람연령, " +
                     "    CASE " +
@@ -70,12 +69,12 @@ public class dvdDao {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
-        List<rentalInfoDTO> rentalList = new ArrayList<>(); // DTO 타입 일치
+        List<rentalInfoDTO> rentalList = new ArrayList<>();
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            // conn.setAutoCommit(false); // 조회(SELECT)에는 필요 없으므로 제거
+
 
             String sql = "SELECT " +
                     "    U.User_ID, " +
@@ -109,7 +108,6 @@ public class dvdDao {
                 String rentalDate = rs.getString("대여일");
                 int moiveId = rs.getInt("Movie_ID");
 
-                // 💡 버그 수정: rentalInfoDTO 생성자에 맞게 title, rentalDate, rentalId 전달
                 rentalInfoDTO rentaldto = new rentalInfoDTO(userID, userName, userAge, Id, title, rentalDate, moiveId);
                 rentalList.add(rentaldto);
             }
@@ -145,9 +143,9 @@ public class dvdDao {
             pstmt.setObject(3, rentalDate);
             pstmt.executeUpdate();
 
-            conn.commit(); // 트랜잭션 완료
+            conn.commit();
 
-        } catch (SQLException ex) { // 💡 SQLException을 명시적으로 잡고 롤백
+        } catch (SQLException ex) {
             try { if (conn != null) conn.rollback(); } catch (SQLException ignored) { }
             throw new RuntimeException("대여 처리 중 DB 오류 발생: " + ex.getMessage(), ex);
         } catch (Exception e) {
@@ -175,7 +173,6 @@ public class dvdDao {
             pstmt = conn.prepareStatement(returnRentalSql);
 
             pstmt.setObject(1, returnDate);
-            // 💡 버그 수정: rental_id 바인딩 추가
             pstmt.setInt(2, rental_id);
 
             pstmt.executeUpdate();
@@ -235,75 +232,4 @@ public class dvdDao {
         return Userlist;
     }
     // ------------------------------------------------------------------------------------------------------------------
-
-    public boolean signUp(String name, int age, String id, String pw) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        boolean success = false;
-
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            conn.setAutoCommit(false);
-
-            String insertUserSql = "INSERT INTO User (이름, 나이, 아이디, 비밀번호) VALUES (?, ?, ?, ?)";
-            pstmt = conn.prepareStatement(insertUserSql);
-
-            pstmt.setString(1, name);
-            pstmt.setInt(2, age);
-            pstmt.setString(3, id);
-            pstmt.setString(4, pw);
-
-            int affectedRows = pstmt.executeUpdate();
-            boolean success1 = true;
-
-        } catch (SQLIntegrityConstraintViolationException ex) {
-            try { if (conn != null) conn.rollback(); } catch (SQLException ignored) { }
-            return false;
-        } catch (Exception ex) {
-            try {
-                if (conn != null) conn.rollback();
-            } catch (SQLException ignored) {
-            }
-            return false;
-        } finally {
-            // 3. 자원 해제
-            try { if (pstmt != null) pstmt.close(); } catch (Exception ignored) { }
-            try { if (conn != null) conn.close(); } catch (Exception ignored) { }
-        }
-        return success;
-    }
-    public int loginCheck(String inputId, String inputPw) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        int success = 0; // 0: 실패, 1: 성공
-
-        try {
-            // ... DB 연결 및 초기화 ...
-
-            String sql = "SELECT COUNT(User_ID) AS login_success FROM User WHERE 아이디 = ? AND 비밀번호 = ?";
-
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, inputId); // 1. 입력받은 아이디 바인딩
-            pstmt.setString(2, inputPw); // 2. 입력받은 비밀번호 바인딩
-
-            rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                // 결과는 0 또는 1
-                success = rs.getInt("login_success");
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            // 오류 발생 시 0 반환
-            return 0;
-        } finally {
-            // ... 자원 해제 ...
-        }
-
-        return success; // 1 (성공) 또는 0 (실패) 반환
-    }
-
 }

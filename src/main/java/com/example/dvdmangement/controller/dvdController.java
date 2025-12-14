@@ -9,7 +9,6 @@ import com.example.dvdmangement.service.userService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +24,6 @@ public class dvdController {
         this.userService = userService;
     }
 
-    //movie 데이터 호출
     @GetMapping("/dvdData")
     public List<ResponseDTO> getAllDvds(){
         return dvdService.getAllDvds();
@@ -41,7 +39,7 @@ public class dvdController {
         return dvdService.getAllRents(userId);
     }
 
-    @PostMapping("/rentMovie")
+        @PostMapping("/rentMovie")
     public String rentMovie(@RequestBody RequestDTO request,
                             HttpServletRequest httpRequest) {
 
@@ -61,8 +59,6 @@ public class dvdController {
         }
     }
 
-
-
     @PostMapping("/returnMovie")
     public String returnMovie(@RequestBody Map<String, Integer> request) {
 
@@ -78,5 +74,4 @@ public class dvdController {
             return "{\"success\": false}";
         }
     }
-
 }

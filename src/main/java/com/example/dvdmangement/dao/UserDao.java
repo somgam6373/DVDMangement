@@ -16,7 +16,6 @@ public class UserDao {
         );
     }
 
-    // username으로 유저 찾기
     public UserDTO findByUsername(String id) {
         String sql = "SELECT User_ID, 이름, 나이, 아이디, 비밀번호 FROM user WHERE 아이디 = ?";
 
@@ -28,11 +27,11 @@ public class UserDao {
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     UserDTO user = new UserDTO();
-                    user.setUserid(rs.getInt("User_ID"));    // PK
-                    user.setName(rs.getString("이름"));      // 이름
-                    user.setAge(rs.getInt("나이"));          // 나이
-                    user.setId(rs.getString("아이디"));      // 아이디
-                    user.setPassword(rs.getString("비밀번호")); // 비번
+                    user.setUserid(rs.getInt("User_ID"));
+                    user.setName(rs.getString("이름"));
+                    user.setAge(rs.getInt("나이"));
+                    user.setId(rs.getString("아이디"));
+                    user.setPassword(rs.getString("비밀번호"));
                     return user;
                 }
             }
@@ -41,19 +40,18 @@ public class UserDao {
             e.printStackTrace();
         }
 
-        return null; // 없으면 null
+        return null;
     }
-    // 회원 저장 (회원가입)
     public void save(UserDTO user) {
         String sql = "INSERT INTO user(이름, 나이, 아이디, 비밀번호) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, user.getName());     // 이름
-            pstmt.setInt(2, user.getAge());        // 나이
-            pstmt.setString(3, user.getId());      // 아이디
-            pstmt.setString(4, user.getPassword()); // 비밀번호
+            pstmt.setString(1, user.getName());
+            pstmt.setInt(2, user.getAge());
+            pstmt.setString(3, user.getId());
+            pstmt.setString(4, user.getPassword());
 
             pstmt.executeUpdate();
         } catch (Exception e) {

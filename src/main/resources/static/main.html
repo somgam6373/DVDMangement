@@ -30,7 +30,7 @@
             background-color: #ff4f81;
             display: flex;
             align-items: center;
-            justify-content: space-between; /* 왼쪽부터 나열 */
+            justify-content: space-between;
             border-radius: 10px;
             z-index: 1000;
             opacity: 1;
@@ -38,12 +38,11 @@
 
         header h1{
             margin-left: 30px;
-            margin-right: 24px;  /* DVD와 첫 메뉴 사이 여백 */
+            margin-right: 24px;
         }
 
-        /* 메뉴들 사이 간격 */
         header a{
-            margin-left: 16px;   /* DVD 포함 전체 기준으로 간격 */
+            margin-left: 16px;
             font-size: 15px;
             color: #fff;
             text-decoration: none;
@@ -51,7 +50,7 @@
         }
         .nav-links {
             display: flex;
-            gap: 16px;        /* 메뉴끼리 간격 */
+            gap: 16px;
             margin-right: 30px;
         }
 
@@ -66,19 +65,6 @@
         header a:hover {
             color: #101010;
             transform: scale(1.1);
-        }
-        form {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background-color: white;
-            border-radius: 5px;
-            height: 50px;
-            width: 600px;
-            padding: 0 10px;
-            box-sizing: border-box;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-            margin: 0 auto 20px auto;
         }
 
         input {
@@ -111,6 +97,19 @@
             width: 80%;
             margin-top: 20px;
             padding: 60px;
+        }
+        form {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: white;
+            border-radius: 5px;
+            height: 50px;
+            width: 600px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+            margin: 0 auto 20px auto;
         }
 
         .box {
@@ -285,9 +284,36 @@
             display: flex !important;
             align-items: center;
             gap: 3px;
-            margin: 20px auto 0 auto;
             width: 28vh;
+            justify-content: center;
         }
+
+
+        .saveBtn {
+            width: 60px;
+            height: 50px;
+            font-size: 30px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .saveBtn:hover {
+            background-color: #43a047;
+        }
+
+        .saveBtn:active {
+            transform: scale(0.95);
+        }
+
 
         .modal-form input{
             flex: none !important;
@@ -308,27 +334,25 @@
             background-color: white;
         }
         #modalTitle {
-            font-size: 2rem;       /* 기존 크기 유지 */
+            font-size: 2rem;
             font-weight: 800;
-            color: #2a2a3d  ;         /* 강조색 */
+            color: #2a2a3d  ;
             margin-bottom: 8px;
             text-align: center;
         }
 
-        /* 모달 ID */
         #modalId, #modalGrade {
-            font-size: 0.9em;       /* 기존 크기 유지 */
-            color: #888;             /* 은은한 회색 */
+            font-size: 0.9em;
+            color: #888;
             text-align: center;
             margin-bottom: 15px;
             letter-spacing: 0.5px;
         }
 
 
-        /* 각 항목 flex */
         .rent-item {
             display: flex;
-            justify-content: space-between; /* 왼쪽 정보 / 오른쪽 버튼 분리 */
+            justify-content: space-between;
             align-items: center;
             padding: 12px 16px;
             border-bottom: 1px solid #444;
@@ -396,12 +420,16 @@
         <p id = "rentAvailability"></p>
 
         <form class="modal-form" id="RegName" method="post">
-            <input type="text" id="name" placeholder="비밀번호를 입력하시오.">
-            <button type="submit" id="saveModal">
+            <button type="submit" id="saveModal" class="saveBtn">
                 <i class="fa-solid fa-floppy-disk"></i>
             </button>
         </form>
-
+        <div style="margin-top: 20px; text-align: center;">
+            <img id="qrImage" alt="QR 코드">
+            <p style="font-size: 12px; color: gray;">
+                QR 스캔 시 해당 영화 ID가 전달됩니다
+            </p>
+        </div>
     </div>
 </div>
 
@@ -418,6 +446,8 @@
 <script>
     let allMovies = [];
     let allUser = [];
+    const RENT_LIMIT_HOURS = 168;
+    let hasOverdue = false;
 
     window.addEventListener("DOMContentLoaded",async ()=>{
         await loadMovies();
@@ -427,16 +457,16 @@
 
         const rentInfo = document.getElementById("rentInfo").style.display
         if(token){
-            document.getElementById("rentInfo").style.display = "inLine";
-            document.getElementById("logout").style.display = "inLine";
+            document.getElementById("rentInfo").style.display = "inline";
+            document.getElementById("logout").style.display = "inline";
             document.getElementById("login").style.display = "none";
             document.getElementById("register").style.display = "none";
         }
         else{
             document.getElementById("rentInfo").style.display = "none";
             document.getElementById("logout").style.display = "none";
-            document.getElementById("login").style.display = "inLine";
-            document.getElementById("register").style.display = "inLine";
+            document.getElementById("login").style.display = "inline";
+            document.getElementById("register").style.display = "inline";
         }
 
 
@@ -447,22 +477,11 @@
             const query = document.getElementById("movie").value.trim().toLowerCase();
             displayMovies(allMovies.filter(movie => movie.title.toLowerCase().includes(query)));
         });
-        {
-            const ageSelect = document.getElementById("age");
-            for (let i = 1; i <= 99; i++) {
-                const option = document.createElement("option");
-                option.value = i;
-                option.text = i;
-                ageSelect.appendChild(option);}
-        }
     });
 
     function logout() {
-        // 토큰 삭제
         localStorage.removeItem("jwtToken");
-
         alert("로그아웃 되었습니다.");
-
         location.href = "/main.html";
     }
 
@@ -547,9 +566,13 @@
         });
     }
     function openModal(movie) {
+        loadUserInfo();
+        const userid = allUser[0].userid;
         document.getElementById("modalTitle").innerText =  `${movie.title}`;
         document.getElementById("modalId").innerText = "영화 ID: " + movie.id;
         document.getElementById("modalGrade").innerText = "등급: "+ movie.grade;
+        const qrImg = document.getElementById("qrImage");
+        qrImg.src = `/qr/dvd?dvdId=${movie.id}&userId=${userid}`;
         document.getElementById("movieModal").style.display = "block";
     }
 
@@ -566,7 +589,11 @@
 
     document.getElementById("saveModal").addEventListener("click", async (e) => {
         e.preventDefault();
-        const userPassword = document.getElementById("name").value.trim();
+        if (hasOverdue) {
+            alert("연체된 DVD가 있어 반납 전까지 대여할 수 없습니다.");
+            return;
+        }
+        const token = localStorage.getItem("jwtToken");
         const movieTitle = document.getElementById("modalTitle").innerText;
         const movieIdText = document.getElementById("modalId").innerText;
         const movieId = movieIdText.split(":")[1].trim();
@@ -574,25 +601,19 @@
 
         await loadUserInfo();
 
+
         const userid = allUser[0].userid;
         const userName = allUser[0].name;
         const userAge = allUser[0].age;
         const ID = allUser[0].id;
-        const password = allUser[0].password;
         console.log(userid)
 
-        if (userPassword!=password) {
-            alert("비밀번호 재입력하시오!");
-            return;
-        }
         if (userAge < movieGrade) {
             alert(`연령 미달로 대여할 수 없습니다.\n필요 등급: ${movieGrade}세\n당신 나이: ${userAge}세`);
             return;
         }
 
         try {
-            const token = localStorage.getItem("jwtToken");
-            console.log("token: ",token);
             const res = await fetch("/rentMovie", {
                 method: "POST",
                 headers: {
@@ -600,7 +621,6 @@
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    userid,
                     movieId
                 })
             });
@@ -616,7 +636,7 @@
             }
         }catch(err){
             console.error(err);
-            alert("에러 발생!");
+            alert("에러 발생");
         }
         document.getElementById("movieModal").style.display = "none";
     });
@@ -626,17 +646,13 @@
         const rentModal = document.getElementById("rentModal");
         const rentList = document.getElementById("rentList");
 
-        rentList.innerHTML = ""; // 초기화
-
+        rentList.innerHTML = "";
 
         await loadUserInfo();
 
         const userid = allUser[0].userid;
-        const userName = allUser[0].name;
-        const userAge = allUser[0].age;
-        const ID = allUser[0].id;
-        const password = allUser[0].password;
-        console.log(userid)
+
+        hasOverdue = false;
 
         try {
             const res = await fetch("/rentData", {
@@ -651,30 +667,40 @@
                 rentList.innerHTML = "<p>등록된 대여 정보가 없습니다.</p>";
             } else {
                 data.forEach(item => {
+                    const overdue = isOverdue(item.rentalDate);
+
+                    if (overdue) {
+                        hasOverdue = true;
+                    }
 
                     const div = document.createElement("div");
                     div.classList.add("rent-item");
 
-                    // 정보 출력
                     const infoDiv = document.createElement("div");
                     infoDiv.innerHTML = `
                     <strong>${item.title}</strong> (ID: ${item.movieId})<br>
                     이름: ${item.userName}, 나이: ${item.userAge}<br>
-                    대여일: ${item.rentalDate}
+                    대여일: ${item.rentalDate}<br>
+                    상태: <span style="color:${overdue ? 'red' : 'green'}">
+                        ${overdue ? '연체' : '정상'}
+                    </span>
                 `;
 
-                    // 반납 버튼
                     const returnBtn = document.createElement("button");
                     returnBtn.innerHTML = '<i class="fa-solid fa-retweet"></i>';
                     returnBtn.classList.add("returnBtn");
 
-                    // 버튼 클릭 이벤트 (item 정상 인식)
+                    if (overdue) {
+                        returnBtn.style.backgroundColor = "#e74c3c";
+                        returnBtn.title = "연체 반납";
+                    }
+
                     returnBtn.addEventListener("click", async () => {
                         try {
                             const res = await fetch("/returnMovie", {
                                 method: "POST",
                                 headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({Id: item.Id})
+                                body: JSON.stringify({ Id: item.Id })
                             });
 
                             const result = await res.json();
@@ -692,22 +718,37 @@
                         }
                     });
 
-                    // 하나의 div에 info + 버튼 추가
                     div.appendChild(infoDiv);
                     div.appendChild(returnBtn);
-
                     rentList.appendChild(div);
                 });
             }
 
-            rentModal.style.display = "block"; // 모달 보이기
+            if (hasOverdue) {
+                const warning = document.createElement("p");
+                warning.style.color = "red";
+                warning.style.fontWeight = "bold";
+                warning.innerText = "⚠ 연체된 대여가 있어 새로운 DVD 대여가 불가능합니다.";
+                rentList.prepend(warning);
+            }
+
+            window.hasOverdue = hasOverdue;
+
+            rentModal.style.display = "block";
 
         } catch (err) {
             console.error(err);
             alert("대여 정보 불러오기 실패!");
         }
     });
+    function isOverdue(rentalDate){
+        const rd = new Date(rentalDate);
+        const now = new Date();
 
+        const diffiMinute = now - rd;
+        const diffHour = diffiMinute/(1000*60*60);
+        return diffHour > RENT_LIMIT_HOURS;
+    }
 
 
     document.getElementById("rentClose").addEventListener("click", () => {
