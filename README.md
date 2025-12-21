@@ -36,7 +36,12 @@
 <div>
   &nbsp&nbsp
   <img src="https://img.shields.io/badge/Java-F6F6F6.svg?logo=java&logoColor=E11F21"/>
+  <img src="https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=FFFFFF"/>
+  <img src="https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=FFFFFF"/>
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000000"/>
+  <img src="https://img.shields.io/badge/MySQL-3765af?logo=mysql&logoColor=FFFFFF"/>
 </div>
+
 
 ---
 
