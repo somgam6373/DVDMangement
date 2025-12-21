@@ -100,6 +100,11 @@
 ---
 
 ## 📎 기타
-
 - 본 프로젝트는 **객체지향프로그래밍 수업 과제**로 진행되었습니다.
 - 학습 목적의 프로젝트이며, 실제 상용 서비스는 아닙니다.
+
+## Diagram
+[Diagram(qr추가).pdf](https://github.com/user-attachments/files/24278423/Diagram.qr.pdf)
+[Sequence_diagram.pdf](https://github.com/user-attachments/files/24278425/Sequence_diagram.pdf)
+
+
