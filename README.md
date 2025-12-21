@@ -103,11 +103,17 @@
 - 본 프로젝트는 **객체지향프로그래밍 수업 과제**로 진행되었습니다.
 - 학습 목적의 프로젝트이며, 실제 상용 서비스는 아닙니다.
 
-## Diagram
-[Diagram(qr추가).pdf](https://github.com/user-attachments/files/24278423/Diagram.qr.pdf)
-[Sequence_diagram.pdf](https://github.com/user-attachments/files/24278425/Sequence_diagram.pdf)
+## 📐 Diagram
+
+### 🔁 Sequence Diagram
+> 사용자가 DVD를 대여할 때의 요청–응답 흐름과 Controller–Service 간 호출 관계를 표현
+
+![Sequence_diagram](https://github.com/user-attachments/assets/e510e66c-9c64-4bff-9a8e-63280e08a8c4)
 
 ---
-![Sequence_diagram](https://github.com/user-attachments/assets/f9b9a639-f61b-4b58-b973-cf7ec463ebd7)
 
-![ClassDiagram](https://github.com/user-attachments/assets/86e8af64-099c-498d-8be9-88807d67e900)
+### 🧩 Class Diagram
+> DVD, User, Rental 도메인 중심의 객체 관계와 MVC 구조를 나타낸 클래스 다이어그램
+
+![ClassDiagram](https://github.com/user-attachments/assets/068d954f-3e54-4a4f-919d-cffd77134f77)
+
