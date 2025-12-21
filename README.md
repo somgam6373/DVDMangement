@@ -107,4 +107,7 @@
 [Diagram(qr추가).pdf](https://github.com/user-attachments/files/24278423/Diagram.qr.pdf)
 [Sequence_diagram.pdf](https://github.com/user-attachments/files/24278425/Sequence_diagram.pdf)
 
+---
+![Sequence_diagram](https://github.com/user-attachments/assets/f9b9a639-f61b-4b58-b973-cf7ec463ebd7)
 
+![ClassDiagram](https://github.com/user-attachments/assets/86e8af64-099c-498d-8be9-88807d67e900)
